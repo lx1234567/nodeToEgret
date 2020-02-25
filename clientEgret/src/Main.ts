@@ -75,7 +75,7 @@ class Main extends eui.UILayer {
 
     private onConnedComplete(){
         console.log("connect sucess");
-        // this._clent.writeUTF("hello world");
+        this._clent.writeUTF("hello world");
         // this._clent.writeUTF("hello world22222");
         // this._clent.flush();
     }

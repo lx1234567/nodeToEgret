@@ -115,7 +115,7 @@ var Main = (function (_super) {
     };
     Main.prototype.onConnedComplete = function () {
         console.log("connect sucess");
-        // this._clent.writeUTF("hello world");
+        this._clent.writeUTF("hello world");
         // this._clent.writeUTF("hello world22222");
         // this._clent.flush();
     };
