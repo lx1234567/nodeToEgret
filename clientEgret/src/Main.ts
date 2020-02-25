@@ -69,13 +69,14 @@ class Main extends eui.UILayer {
         // console.log(userInfo);
 
         this._clent = new egret.WebSocket();
-        this._clent.connectByUrl("ws://127.0.0.1:8124");
+        this._clent.connectByUrl("ws://127.0.0.1:3000");
         this._clent.addEventListener(egret.Event.CONNECT,this.onConnedComplete,this);
     }
 
     private onConnedComplete(){
         console.log("connect sucess");
-        this._clent.writeUTF("hello world");
+        // this._clent.writeUTF("hello world");
+        // this._clent.writeUTF("hello world22222");
         // this._clent.flush();
     }
 
