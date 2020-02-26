@@ -107,17 +107,19 @@ var Main = (function (_super) {
                 // const userInfo = await platform.getUserInfo();
                 // console.log(userInfo);
                 this._clent = new egret.WebSocket();
-                this._clent.connectByUrl("ws://127.0.0.1:3000");
+                this._clent.connectByUrl("ws://192.168.21.51:8124");
                 this._clent.addEventListener(egret.Event.CONNECT, this.onConnedComplete, this);
+                this._clent.addEventListener(egret.ProgressEvent.SOCKET_DATA, this.socketDataHandler, this);
                 return [2 /*return*/];
             });
         });
     };
+    Main.prototype.socketDataHandler = function (data) {
+        console.log(this._clent.readUTF());
+    };
     Main.prototype.onConnedComplete = function () {
-        console.log("connect sucess");
-        this._clent.writeUTF("hello world");
-        // this._clent.writeUTF("hello world22222");
-        // this._clent.flush();
+        var id = Math.random();
+        this._clent.writeUTF("name" + id);
     };
     Main.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {

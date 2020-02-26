@@ -26,6 +26,7 @@ function callback(req, socket) {
 
         // Is this the last frame in a sequence?
         B = data[0]
+        console.log(B);
         HB = B >> 4
         if (HB % 8) {
             // RSV1, RSV2 and RSV3 must be clear
@@ -46,7 +47,9 @@ function callback(req, socket) {
 
         B = data[1]
         hasMask = B >> 7
+        // console.log(hasMask);
         len = B % 128
+        console.log(len);
         start = hasMask ? 6 : 2
 
         if (data.length < start + len) {
