@@ -45,12 +45,22 @@ exports.createCloseFram = function (code, reason, masked) {
     return Buffer.concat([meta, payload], meta.length + payload.length)
 }
 
-exports.createPingFram = function(){
+exports.createPingFrame = function (data, masked) {
+	var payload, meta
 
+	payload = Buffer.from(data)
+	meta = generateMetaData(true, 9, masked === undefined ? false : masked, payload)
+
+	return Buffer.concat([meta, payload], meta.length + payload.length)
 }
 
-exports.createPongFram = function(){
-    
+exports.createPongFrame = function (data, masked) {
+	var payload, meta
+
+	payload = Buffer.from(data)
+	meta = generateMetaData(true, 10, masked === undefined ? false : masked, payload)
+
+	return Buffer.concat([meta, payload], meta.length + payload.length)
 }
 
 /**
