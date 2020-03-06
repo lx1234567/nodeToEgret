@@ -4,6 +4,7 @@ var port = 8124;
 var server = ws.createServer(function (conn) {
     console.log("new connection");
     conn.on("text", function (str) {
+        console.log("1111");
         if (!conn.name) {
             if (str.indexOf("name") != -1) {
                 conn.name = str;

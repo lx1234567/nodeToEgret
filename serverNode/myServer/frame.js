@@ -74,7 +74,7 @@ exports.createPongFrame = function (data, masked) {
  */
 function generateMetaData(fin, opcode, masked, payload) {
     var len, meta, start, mask, i;
-    len = payload.len;
+    len = payload.length;
     meta = Buffer.alloc(2 + (len < 126 ? 0 : len < 65536 ? 2 : 8) + masked ? 4 : 0);
     meta[0] = (fin ? 128 : 0) + opcode;
     meta[1] = masked ? 128 : 0;

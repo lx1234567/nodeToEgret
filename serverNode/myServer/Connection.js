@@ -50,12 +50,12 @@ var util = require("util"),
         this.headers = {};
 
         socket.on("readable",function(){
-            this.doRead();
+            that.doRead();
         });
 
-        socket.on("error",function(err){
-            this.emit("error",err);
-        });
+        socket.on('error', function (err) {
+            that.emit('error', err)
+        })
 
         if(!this.server){
             connectEvent = socket.constructor.name === 'CleartextStream' ? 'secureConnect' : 'connect';
@@ -100,11 +100,13 @@ var util = require("util"),
         if(!buffer){
             return;
         }
+        this.buffer = Buffer.concat([this.buffer,buffer],this.buffer.length + buffer.length)
         if(this.readyState === this.CONNECTING){
             if(!this.readHandshake()){
                 return;
             }
         }
+        
         if(this.readyState !== this.CLOSED){
             while((temp = this.extractFrame()) === true){}
             if(temp === false){
@@ -122,8 +124,8 @@ var util = require("util"),
             return;
         }
         B = this.buffer[0];
-        HB >> 4;
-        if(HB % 8 == 0){
+        HB = B >> 4;
+        if(HB % 8){
             return false; 
         }
         fin = HB === 8;
@@ -139,6 +141,9 @@ var util = require("util"),
         if((this.server && !hasMask) || (!this.server && hasMask)){
             return false;
         }
+
+        len = B % 128;
+        start = hasMask ? 6 : 2;
         if(this.buffer.length < start + len){
             return;
         }
@@ -161,7 +166,8 @@ var util = require("util"),
                 payload[i] ^= mask[i % 4]
             }
         }
-        this.buffer = this.buffer.slice(start + len)
+        this.buffer = this.buffer.slice(start + len);
+        // console.log(this.buffer.length);
     
         return this.processFrame(fin, opcode, payload)
     }
@@ -201,7 +207,6 @@ var util = require("util"),
         if (opcode === 1) {
             payload = payload.toString()
             this.frameBuffer = this.frameBuffer ? this.frameBuffer + payload : payload
-    
             if (fin) {
                 this.emit('text', this.frameBuffer)
                 this.frameBuffer = null
@@ -218,7 +223,6 @@ var util = require("util"),
                 this.frameBuffer = null
             }
         }
-    
         return true
     }
 
@@ -249,7 +253,6 @@ var util = require("util"),
             }
             return false;
         }
-
         for(i = 0;i < this.buffer.length - 3;i ++){
             if(this.buffer[i] === 13 && this.buffer[i + 2] === 13
                 && this.buffer[i + 1] === 10 && this.buffer[i + 3] === 10){
@@ -257,7 +260,6 @@ var util = require("util"),
                     break;
                 }
         }
-
         if(!found){
             return false;
         }
@@ -279,19 +281,19 @@ var util = require("util"),
         if(lines.length < 6){
             return false;
         }
-        path = lines[0].match(/^GET (.+) HTTP\/d\.\d$/i);
+        path = lines[0].match(/^GET (.+) HTTP\/\d\.\d$/i);
         if(!path){
             return false;
         }
-        this.path = path[1];
         this.readHeaders(lines);
-        if(!("host" in this.headers) || !("sec-websocket-key" in this.headers) || !("upgrade" in this.headers) || !("connection" in this.headers)){
+        if(!("host" in this.headers) || !('sec-websocket-key' in this.headers) || !("upgrade" in this.headers) || !("connection" in this.headers)){
             return false;
         }
+        
         if(this.headers.upgrade.toLowerCase() !== "websocket" || this.headers.connection.toLowerCase().split(/\s*,\s*/).indexOf("upgrade") === -1){
             return false;
         }
-        if(this.headers["sec-websocket-version"] !== 13){
+        if(this.headers["sec-websocket-version"] !== '13'){
             return false;
         }
         this.key = this.headers["sec-websocket-key"];
@@ -305,6 +307,7 @@ var util = require("util"),
         }
         sha1 = crypto.createHash("sha1");
         sha1.end(this.key + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11');
+        key = sha1.read().toString('base64');
         headers = {
             Upgrade:"websocket",
             Connection:"Upgrade",
@@ -320,13 +323,13 @@ var util = require("util"),
     Connection.prototype.readHeaders = function(lines){
         var i,match;
         for(i = 0;i < lines.length;i ++){
-            if((match = lines[i].match(/^([a-z]+): (.+)$/i))){
+            if((match = lines[i].match(/^([a-z-]+): (.+)$/i))){
                 this.headers[match[1].toLowerCase()] = match[2];
             }
         }
     }
 
-    Connection.prototype.buildRequest() = function(requestLine,headers){
+    Connection.prototype.buildRequest = function(requestLine,headers){
         var headerString = requestLine + '\r\n',
         headerName;
         for(headerName in headers){
@@ -381,7 +384,7 @@ var util = require("util"),
         return true;
     }
 
-    Connection.prototype.startHandshake() = function(){
+    Connection.prototype.startHandshake = function(){
         var str,i,key,headers,header;
         key = Buffer.alloc(16);
         for(i = 0;i < 16;i ++){
@@ -405,7 +408,7 @@ var util = require("util"),
         this.socket.write(str)
     }
 
-    Connection.prototype.send() = function(data,callback){
+    Connection.prototype.send = function(data,callback){
         if(typeof data === 'string'){
             this.sendText(data,callback);
         }else if(Buffer.isBuffer(data)){
@@ -416,7 +419,7 @@ var util = require("util"),
         }
     }
 
-    Connection.prototype.sendText() = function(str,callback){
+    Connection.prototype.sendText = function(str,callback){
         if(this.readyState === this.OPEN){
             if(!this.outStream){
                 return this.socket.write(frame.createTextFrame(str,!this.server),callback)
@@ -428,7 +431,7 @@ var util = require("util"),
         }
     }
 
-    Connection.prototype.sendBinary() = function(data,callback){
+    Connection.prototype.sendBinary = function(data,callback){
         if(this.readyState === this.OPEN){
             if(!this.outStream){
                 return this.socket.write(frame.createBinaryFram(data,!this.server,true,true),callback);

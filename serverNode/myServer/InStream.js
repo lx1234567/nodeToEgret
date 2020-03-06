@@ -7,7 +7,7 @@ function InStream(){
 }
 module.exports = InStream;
 
-util.inherits(Instream,stream.Readable);
+util.inherits(InStream,stream.Readable);
 
 InStream.prototype._read = function(){};
 
