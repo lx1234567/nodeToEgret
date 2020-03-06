@@ -17,7 +17,7 @@ exports.createTextFrame = function (data, masked) {
  * @param {*} fin 是否为最后一帧，默认为最后一帧
  * @returns
  */
-exports.createBinaryFram = function (data, masked, first, fin) {
+exports.createBinaryFrame = function (data, masked, first, fin) {
     var payload, meta;
     first = first === undefined ? true : first;
     masked = masked === undefined ? false : masked;
@@ -32,7 +32,7 @@ exports.createBinaryFram = function (data, masked, first, fin) {
     return Buffer.concat([meta, payload], meta.length + payload.length);
 }
 
-exports.createCloseFram = function (code, reason, masked) {
+exports.createCloseFrame = function (code, reason, masked) {
     var payload, meta;
     if (code !== undefined && code !== 1005) {
         payload = Buffer.from(reason === undefined ? '--' : '--' + reason)
@@ -75,7 +75,7 @@ exports.createPongFrame = function (data, masked) {
 function generateMetaData(fin, opcode, masked, payload) {
     var len, meta, start, mask, i;
     len = payload.length;
-    meta = Buffer.alloc(2 + (len < 126 ? 0 : len < 65536 ? 2 : 8) + masked ? 4 : 0);
+    meta = Buffer.alloc(2 + (len < 126 ? 0 : (len < 65536 ? 2 : 8)) + (masked ? 4 : 0));
     meta[0] = (fin ? 128 : 0) + opcode;
     meta[1] = masked ? 128 : 0;
     start = 2;
@@ -95,14 +95,14 @@ function generateMetaData(fin, opcode, masked, payload) {
     }
 
     if (masked) {
-        mask = Buffer.alloc(4)
-        for (i = 0; i < 4; i++) {
-            meta[start + i] = mask[i] = Math.floor(Math.random() * 256);
-        }
-        for (i = 0; i < 4; i++) {
-            payload[i] = meta[i % 4];
-        }
-        start += 4;
-    }
+		mask = Buffer.alloc(4)
+		for (i = 0; i < 4; i++) {
+			meta[start + i] = mask[i] = Math.floor(Math.random() * 256)
+		}
+		for (i = 0; i < payload.length; i++) {
+			payload[i] ^= mask[i % 4]
+		}
+		start += 4
+	}
     return meta;
 }

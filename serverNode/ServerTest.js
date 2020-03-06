@@ -16,8 +16,6 @@ var server = ws.createServer(function(conn){
     })
     function boardcast(str){
         server.connections.forEach(function(conn1){
-            console.log(str);
-            console.log(conn1.sendText);
             conn1.sendText(str);
         });
     }
