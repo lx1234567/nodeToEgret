@@ -8,7 +8,9 @@
 		"libs/modules/promise/promise.js",
 		"libs/modules/socket/socket.js",
 		"libs/WXCloudApi/WXCloudApi.js",
-		"libs/egretmgobe/egretmgobe.js"
+		"libs/egretmgobe/egretmgobe.js",
+		"protobuf/library/protobuf-library.js",
+		"protobuf/bundles/protobuf-bundles.js"
 	],
 	"game": [
 		"bin-debug/AssetAdapter.js",

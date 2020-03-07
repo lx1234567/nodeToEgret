@@ -1,4 +1,7 @@
 var ws = require('./myServer/MyWebSocket'),
+prtobufJs = require("protobufjs"),
+root = prtobufJs.loadSync("./protobuf/test.proto"),
+student = root.lookupType("prt.Student");
 ports = 8124;
 
 var server = ws.createServer(function(conn){
@@ -6,6 +9,9 @@ var server = ws.createServer(function(conn){
     conn.on('text',function(str){
         boardcast(str)
     });
+    conn.on('binary',function(st1){
+        boardcast(st1)
+    })
     conn.on('close',function(){
         console.log('connection close');
     });
@@ -16,7 +22,11 @@ var server = ws.createServer(function(conn){
     })
     function boardcast(str){
         server.connections.forEach(function(conn1){
-            conn1.sendText(str);
+            var student1 = student.create();
+            student1.name = "张三";
+            student1.id = 5;
+            var studentbuf = student.encode(student1).finish();
+            conn1.sendBinary(studentbuf);
         });
     }
 }).listen(ports);

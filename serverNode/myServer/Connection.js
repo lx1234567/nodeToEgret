@@ -434,7 +434,7 @@ var util = require("util"),
     Connection.prototype.sendBinary = function(data,callback){
         if(this.readyState === this.OPEN){
             if(!this.outStream){
-                return this.socket.write(frame.createBinaryFram(data,!this.server,true,true),callback);
+                return this.socket.write(frame.createBinaryFrame(data,!this.server,true,true),callback);
             }
             this.emit('error',new Error('You can\'t send more binary frame until you finish sending previous binary frame'))
         }

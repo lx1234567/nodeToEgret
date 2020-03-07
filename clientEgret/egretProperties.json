@@ -1,36 +1,44 @@
 {
-  "engineVersion": "5.2.29",
-  "compilerVersion": "5.2.29",
-  "template": {},
-  "target": {
-    "current": "web"
-  },
-  "modules": [
-    {
-      "name": "egret"
-    },
-    {
-      "name": "eui"
-    },
-    {
-      "name": "assetsmanager"
-    },
-    {
-      "name": "tween"
-    },
-    {
-      "name": "promise"
-    },
-    {
-			"name": "socket"
+		"engineVersion": "5.2.29",
+		"compilerVersion": "5.2.29",
+		"template": {},
+		"target": {
+				"current": "web"
 		},
-    {
-      "name": "WXCloudApi",
-      "path": "./libs/WXCloudApi"
-    },
-    {
-      "name": "egretmgobe",
-      "path": "./libs/egretmgobe"
-    }
-  ]
+		"modules": [
+				{
+						"name": "egret"
+				},
+				{
+						"name": "eui"
+				},
+				{
+						"name": "assetsmanager"
+				},
+				{
+						"name": "tween"
+				},
+				{
+						"name": "promise"
+				},
+				{
+						"name": "socket"
+				},
+				{
+						"name": "WXCloudApi",
+						"path": "./libs/WXCloudApi"
+				},
+				{
+						"name": "egretmgobe",
+						"path": "./libs/egretmgobe"
+				},
+				{
+						"name": "protobuf-library",
+						"path": "protobuf/library"
+				},
+				{
+						"name": "protobuf-bundles",
+						"path": "protobuf/bundles"
+				}
+		]
 }

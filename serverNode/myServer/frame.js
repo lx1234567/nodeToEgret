@@ -28,7 +28,7 @@ exports.createBinaryFrame = function (data, masked, first, fin) {
     else {
         payload = data;
     }
-    meta = this.generateMetaData(fin === undefined ? true : fin, first ? 2 : 0, masked, payload);
+    meta = generateMetaData(fin === undefined ? true : fin, first ? 2 : 0, masked, payload);
     return Buffer.concat([meta, payload], meta.length + payload.length);
 }
 

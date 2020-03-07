@@ -57,7 +57,7 @@ class Main extends eui.UILayer {
         })
     }
 
-    private _clent:egret.WebSocket;
+    private _clent: egret.WebSocket;
 
     private async runGame() {
         // await this.loadResource()
@@ -69,19 +69,27 @@ class Main extends eui.UILayer {
         // console.log(userInfo);
 
         this._clent = new egret.WebSocket();
+        this._clent.type = egret.WebSocket.TYPE_BINARY;
         this._clent.connectByUrl("ws://192.168.21.51:8124");
-        this._clent.addEventListener(egret.Event.CONNECT,this.onConnedComplete,this);
-
-        this._clent.addEventListener(egret.ProgressEvent.SOCKET_DATA,this.socketDataHandler,this);
+        this._clent.addEventListener(egret.Event.CONNECT, this.onConnedComplete, this);
+        this._clent.addEventListener(egret.ProgressEvent.SOCKET_DATA, this.socketDataHandler, this);
     }
+
+    private _receiveByteArray = new egret.ByteArray();
+    private _temByteArray = new egret.ByteArray();
 
     private socketDataHandler(data: any): void {
-        console.log(this._clent.readUTF());
+        this._clent.readBytes(this._receiveByteArray);
+        this._receiveByteArray.readBytes(this._temByteArray, 0);
+        let proto: prt.Student = prt.Student.decode(this._temByteArray.bytes);
+        console.log(proto.name);
+        console.log(proto.id);
     }
 
-    private onConnedComplete(){
-        var id:number = Math.random();
-        this._clent.writeUTF("name" + id);
+    private onConnedComplete() {
+        var id: number = Math.random();
+        this._clent.writeBytes(this._receiveByteArray);
+        this._clent.flush();
     }
 
     private async loadResource() {

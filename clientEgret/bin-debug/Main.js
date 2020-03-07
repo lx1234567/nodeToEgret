@@ -74,7 +74,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._receiveByteArray = new egret.ByteArray();
+        _this._temByteArray = new egret.ByteArray();
+        return _this;
     }
     Main.prototype.createChildren = function () {
         _super.prototype.createChildren.call(this);
@@ -107,6 +110,7 @@ var Main = (function (_super) {
                 // const userInfo = await platform.getUserInfo();
                 // console.log(userInfo);
                 this._clent = new egret.WebSocket();
+                this._clent.type = egret.WebSocket.TYPE_BINARY;
                 this._clent.connectByUrl("ws://192.168.21.51:8124");
                 this._clent.addEventListener(egret.Event.CONNECT, this.onConnedComplete, this);
                 this._clent.addEventListener(egret.ProgressEvent.SOCKET_DATA, this.socketDataHandler, this);
@@ -115,11 +119,16 @@ var Main = (function (_super) {
         });
     };
     Main.prototype.socketDataHandler = function (data) {
-        console.log(this._clent.readUTF());
+        this._clent.readBytes(this._receiveByteArray);
+        this._receiveByteArray.readBytes(this._temByteArray, 0);
+        var proto = prt.Student.decode(this._temByteArray.bytes);
+        console.log(proto.name);
+        console.log(proto.id);
     };
     Main.prototype.onConnedComplete = function () {
         var id = Math.random();
-        this._clent.writeUTF("name" + id);
+        this._clent.writeBytes(this._receiveByteArray);
+        this._clent.flush();
     };
     Main.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {
