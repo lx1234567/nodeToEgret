@@ -7,11 +7,17 @@
 		"libs/modules/assetsmanager/assetsmanager.js",
 		"libs/modules/promise/promise.js",
 		"libs/WXCloudApi/WXCloudApi.js",
-		"libs/egretmgobe/egretmgobe.js"
+		"libs/egretmgobe/egretmgobe.js",
+		"protobuf/library/protobuf-library.js",
+		"protobuf/bundles/protobuf-bundles.js",
+		"libs/modules/socket/socket.js"
 	],
 	"game": [
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
-		"bin-debug/Platform.js"
+		"bin-debug/Platform.js",
+		"bin-debug/chess/Chess.js",
+		"bin-debug/chess/ChessBoard.js",
+		"bin-debug/chess/ChessProcess.js"
 	]
 }

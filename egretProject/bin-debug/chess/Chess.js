@@ -1,9 +1,5 @@
-var __reflect = (this && this.__reflect) || function (p, c, t) {
-    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
-};
-var Chess = (function () {
+var Chess = /** @class */ (function () {
     function Chess() {
     }
     return Chess;
 }());
-__reflect(Chess.prototype, "Chess");

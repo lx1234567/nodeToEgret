@@ -61,6 +61,8 @@ class Main extends egret.DisplayObjectContainer {
 
     private _clent: egret.WebSocket;
 
+    private _chessprocess:ChessProcess;
+
     private async runGame() {
         this._clent = new egret.WebSocket();
         this._clent.type = egret.WebSocket.TYPE_BINARY;
@@ -68,6 +70,9 @@ class Main extends egret.DisplayObjectContainer {
         this._clent.addEventListener(egret.Event.CONNECT, this.onConnedComplete, this);
         this._clent.addEventListener(egret.ProgressEvent.SOCKET_DATA, this.socketDataHandler, this);
 
+        this._chessprocess = new ChessProcess();
+
+        this._chessprocess.startGame(this);
         // await this.loadResource()
         // this.createGameScene();
         // const result = await RES.getResAsync("description_json")
