@@ -1,0 +1,4 @@
+class Chess {
+	public constructor() {
+	}
+}

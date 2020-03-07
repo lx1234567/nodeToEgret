@@ -1,0 +1,95 @@
+{
+	"groups": [
+		{
+			"keys": "bg_jpg,egret_icon_png,description_json,20180816155347938_jpg,20180816155401898_jpg,20180816155417461_jpg,20180816155428739_jpg,20180816155439636_jpg,20180816155451495_jpg,20180816155504793_jpg,20180816155551577_jpg,20180816155604128_jpg,20180816155616750_jpg,20180816155648525_jpg,20180816155700870_jpg,20180816155712100_jpg,2018081615572397_jpg",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"name": "bg_jpg",
+			"type": "image",
+			"url": "assets/bg.jpg"
+		},
+		{
+			"name": "egret_icon_png",
+			"type": "image",
+			"url": "assets/egret_icon.png"
+		},
+		{
+			"name": "description_json",
+			"type": "json",
+			"url": "config/description.json"
+		},
+		{
+			"name": "20180816155347938_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155347938.jpg"
+		},
+		{
+			"name": "20180816155401898_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155401898.jpg"
+		},
+		{
+			"name": "20180816155417461_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155417461.jpg"
+		},
+		{
+			"name": "20180816155428739_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155428739.jpg"
+		},
+		{
+			"name": "20180816155439636_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155439636.jpg"
+		},
+		{
+			"name": "20180816155451495_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155451495.jpg"
+		},
+		{
+			"name": "20180816155504793_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155504793.jpg"
+		},
+		{
+			"name": "20180816155551577_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155551577.jpg"
+		},
+		{
+			"name": "20180816155604128_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155604128.jpg"
+		},
+		{
+			"name": "20180816155616750_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155616750.jpg"
+		},
+		{
+			"name": "20180816155648525_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155648525.jpg"
+		},
+		{
+			"name": "20180816155700870_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155700870.jpg"
+		},
+		{
+			"name": "20180816155712100_jpg",
+			"type": "image",
+			"url": "assets/chess/20180816155712100.jpg"
+		},
+		{
+			"name": "2018081615572397_jpg",
+			"type": "image",
+			"url": "assets/chess/2018081615572397.jpg"
+		}
+	]
+}
