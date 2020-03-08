@@ -13,13 +13,13 @@ class Chess extends egret.Bitmap{
 		this._playerIndex = playerIndex;
 		this._chessIndex = chessIndex;
 
-		let texture: egret.Texture = RES.getRes("chess_" + this._playerIndex + "_" + this._chessIndex + "_jpg");
+		let texture: egret.Texture = RES.getRes("chess_" + this._playerIndex + "_" + this._chessIndex + "_png");
 		this.texture = texture;
 	}
 
 	public setPoint(point:egret.Point){
 		this._point = point;
-		this.x = point.x * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2;
-		this.y = point.y * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2;
+		this.x = point.x * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
+		this.y = point.y * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
 	}
 }

@@ -17,13 +17,13 @@ var Chess = (function (_super) {
         this.width = this.height = ChessGlobalData.cellSize;
         this._playerIndex = playerIndex;
         this._chessIndex = chessIndex;
-        var texture = RES.getRes("chess_" + this._playerIndex + "_" + this._chessIndex + "_jpg");
+        var texture = RES.getRes("chess_" + this._playerIndex + "_" + this._chessIndex + "_png");
         this.texture = texture;
     };
     Chess.prototype.setPoint = function (point) {
         this._point = point;
-        this.x = point.x * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2;
-        this.y = point.y * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2;
+        this.x = point.x * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
+        this.y = point.y * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
     };
     return Chess;
 }(egret.Bitmap));

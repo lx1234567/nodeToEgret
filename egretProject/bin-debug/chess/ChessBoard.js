@@ -47,8 +47,8 @@ var ChessBoard = (function (_super) {
         this.drawLine(3 * this._chessCellSize, 7 * this._chessCellSize, 5 * this._chessCellSize, 9 * this._chessCellSize);
         this.drawLine(3 * this._chessCellSize, 9 * this._chessCellSize, 5 * this._chessCellSize, 7 * this._chessCellSize);
         this.drawForuLine(this._chessCellSize, 2 * this._chessCellSize);
-        this.drawForuLine(this._chessCellSize, 6 * this._chessCellSize);
-        this.drawForuLine(7 * this._chessCellSize, 6 * this._chessCellSize);
+        this.drawForuLine(this._chessCellSize, 7 * this._chessCellSize);
+        this.drawForuLine(7 * this._chessCellSize, 7 * this._chessCellSize);
         this.drawForuLine(7 * this._chessCellSize, 2 * this._chessCellSize);
         this._text1 = new egret.TextField();
         this._text2 = new egret.TextField();
