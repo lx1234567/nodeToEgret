@@ -18,6 +18,8 @@
 		"bin-debug/Platform.js",
 		"bin-debug/chess/Chess.js",
 		"bin-debug/chess/ChessBoard.js",
-		"bin-debug/chess/ChessProcess.js"
+		"bin-debug/chess/ChessGlobalData.js",
+		"bin-debug/chess/ChessProcess.js",
+		"bin-debug/chess/ChessUtil.js"
 	]
 }

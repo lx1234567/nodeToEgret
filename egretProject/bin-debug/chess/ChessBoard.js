@@ -1,27 +1,25 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var ChessBoard = /** @class */ (function (_super) {
+var __reflect = (this && this.__reflect) || function (p, c, t) {
+    p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
+};
+var __extends = this && this.__extends || function __extends(t, e) { 
+ function r() { 
+ this.constructor = t;
+}
+for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
+r.prototype = e.prototype, t.prototype = new r();
+};
+var ChessBoard = (function (_super) {
     __extends(ChessBoard, _super);
     function ChessBoard() {
         var _this = _super.call(this) || this;
-        _this._chessCellSize = 75;
+        _this._chessCellSize = ChessGlobalData.cellSize;
         _this._startX = 10;
         _this._startY = 100;
         return _this;
     }
     ChessBoard.prototype.init = function () {
         this.initBoard();
+        this.initChess();
     };
     /** 初始化棋盘 */
     ChessBoard.prototype.initBoard = function () {
@@ -91,5 +89,39 @@ var ChessBoard = /** @class */ (function (_super) {
         this.graphics.moveTo(startX + distance, startY + distance);
         this.graphics.lineTo(startX + distance, startY + distance + size);
     };
+    ChessBoard.prototype.onClickChessBoard = function (e) {
+        var x = e.stageX;
+        var y = e.stageY;
+        if (!this._tempPoint) {
+            this._tempPoint = new egret.Point();
+        }
+        this._tempPoint = this.globalToLocal(x, y, this._tempPoint);
+        this._tempPoint = ChessUtil.getClickChessBoardXY(this._tempPoint, this._chessCellSize, this._tempPoint);
+        if (!this._tempPoint) {
+            console.log("未点击有效位置");
+        }
+        else {
+            console.log("x:" + this._tempPoint.x + "y:" + this._tempPoint.y);
+        }
+    };
+    //初始化棋子
+    ChessBoard.prototype.initChess = function () {
+        this._player1Chess = [];
+        for (var i = 0; i < 7; i++) {
+            var point = ChessGlobalData.chessStartPoint1[i];
+            for (var j = 0; j < point.length; j++) {
+                var chess = new Chess();
+                chess.initChess(1, i + 1);
+                chess.setPoint(new egret.Point(point[j][0], point[j][1]));
+                this._player1Chess.push(chess);
+            }
+        }
+        for (var k = 0; k < this._player1Chess.length; k++) {
+            this.addChild(this._player1Chess[k]);
+        }
+        console.log(this);
+    };
     return ChessBoard;
 }(egret.Sprite));
+__reflect(ChessBoard.prototype, "ChessBoard");
+//# sourceMappingURL=ChessBoard.js.map

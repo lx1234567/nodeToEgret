@@ -3,15 +3,18 @@ class ChessBoard extends egret.Sprite {
 		super();
 	}
 
-	private _chessCellSize: number = 75;
+	private _chessCellSize: number = ChessGlobalData.cellSize;
 	private _startX: number = 10;
 	private _startY: number = 100;
 
 	private _text1:egret.TextField;
 	private _text2:egret.TextField;
 
+	private _player1Chess:Chess[];
+
 	public init() {
 		this.initBoard();
+		this.initChess();
 	}
 
 	/** 初始化棋盘 */
@@ -96,5 +99,45 @@ class ChessBoard extends egret.Sprite {
 		this.graphics.lineTo(startX + distance + size, startY + distance);
 		this.graphics.moveTo(startX + distance, startY + distance);
 		this.graphics.lineTo(startX + distance, startY + distance + size);
+	}
+
+	private _tempPoint:egret.Point;
+
+	public onClickChessBoard(e:egret.TouchEvent){
+		var x:number = e.stageX;
+		var y:number = e.stageY;
+
+		if(!this._tempPoint){
+			this._tempPoint = new egret.Point();
+		}
+
+		this._tempPoint = this.globalToLocal(x,y,this._tempPoint);
+		this._tempPoint = ChessUtil.getClickChessBoardXY(this._tempPoint,this._chessCellSize,this._tempPoint);
+
+		if(!this._tempPoint){
+			console.log("未点击有效位置")
+		}
+		else{
+			console.log("x:" + this._tempPoint.x + "y:" + this._tempPoint.y);
+		}
+	}
+
+    //初始化棋子
+	public initChess(){
+		this._player1Chess = [];
+		for(var i:number = 0;i < 7;i ++){
+			var point:number[][] = ChessGlobalData.chessStartPoint1[i];
+			for(var j:number = 0;j < point.length;j ++){
+				var chess:Chess = new Chess();
+				chess.initChess(1,i + 1);
+				chess.setPoint(new egret.Point(point[j][0],point[j][1]));
+				this._player1Chess.push(chess);
+			}
+		}
+
+		for(var k:number = 0;k < this._player1Chess.length;k ++){
+			this.addChild(this._player1Chess[k]);
+		}
+		console.log(this);
 	}
 }

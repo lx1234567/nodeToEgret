@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,20180816155347938_jpg,20180816155401898_jpg,20180816155417461_jpg,20180816155428739_jpg,20180816155439636_jpg,20180816155451495_jpg,20180816155504793_jpg,20180816155551577_jpg,20180816155604128_jpg,20180816155616750_jpg,20180816155648525_jpg,20180816155700870_jpg,20180816155712100_jpg,2018081615572397_jpg",
+			"keys": "bg_jpg,egret_icon_png,description_json,chess_1_1_jpg,chess_1_2_jpg,chess_1_3_jpg,chess_1_4_jpg,chess_1_5_jpg,chess_1_6_jpg,chess_1_7_jpg,chess_2_1_jpg,chess_2_2_jpg,chess_2_3_jpg,chess_2_4_jpg,chess_2_5_jpg,chess_2_6_jpg,chess_2_7_jpg",
 			"name": "preload"
 		}
 	],
@@ -22,74 +22,74 @@
 			"url": "config/description.json"
 		},
 		{
-			"name": "20180816155347938_jpg",
+			"name": "chess_1_1_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155347938.jpg"
+			"url": "assets/chess/chess_1_1.jpg"
 		},
 		{
-			"name": "20180816155401898_jpg",
+			"name": "chess_1_2_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155401898.jpg"
+			"url": "assets/chess/chess_1_2.jpg"
 		},
 		{
-			"name": "20180816155417461_jpg",
+			"name": "chess_1_3_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155417461.jpg"
+			"url": "assets/chess/chess_1_3.jpg"
 		},
 		{
-			"name": "20180816155428739_jpg",
+			"name": "chess_1_4_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155428739.jpg"
+			"url": "assets/chess/chess_1_4.jpg"
 		},
 		{
-			"name": "20180816155439636_jpg",
+			"name": "chess_1_5_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155439636.jpg"
+			"url": "assets/chess/chess_1_5.jpg"
 		},
 		{
-			"name": "20180816155451495_jpg",
+			"name": "chess_1_6_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155451495.jpg"
+			"url": "assets/chess/chess_1_6.jpg"
 		},
 		{
-			"name": "20180816155504793_jpg",
+			"name": "chess_1_7_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155504793.jpg"
+			"url": "assets/chess/chess_1_7.jpg"
 		},
 		{
-			"name": "20180816155551577_jpg",
+			"name": "chess_2_1_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155551577.jpg"
+			"url": "assets/chess/chess_2_1.jpg"
 		},
 		{
-			"name": "20180816155604128_jpg",
+			"name": "chess_2_2_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155604128.jpg"
+			"url": "assets/chess/chess_2_2.jpg"
 		},
 		{
-			"name": "20180816155616750_jpg",
+			"name": "chess_2_3_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155616750.jpg"
+			"url": "assets/chess/chess_2_3.jpg"
 		},
 		{
-			"name": "20180816155648525_jpg",
+			"name": "chess_2_4_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155648525.jpg"
+			"url": "assets/chess/chess_2_4.jpg"
 		},
 		{
-			"name": "20180816155700870_jpg",
+			"name": "chess_2_5_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155700870.jpg"
+			"url": "assets/chess/chess_2_5.jpg"
 		},
 		{
-			"name": "20180816155712100_jpg",
+			"name": "chess_2_6_jpg",
 			"type": "image",
-			"url": "assets/chess/20180816155712100.jpg"
+			"url": "assets/chess/chess_2_6.jpg"
 		},
 		{
-			"name": "2018081615572397_jpg",
+			"name": "chess_2_7_jpg",
 			"type": "image",
-			"url": "assets/chess/2018081615572397.jpg"
+			"url": "assets/chess/chess_2_7.jpg"
 		}
 	]
 }
