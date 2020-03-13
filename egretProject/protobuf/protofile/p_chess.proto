@@ -1,0 +1,23 @@
+package msg;
+
+message SPlayerInfo{
+    required string playerName = 1;
+    required int32 playerId = 2;
+}
+
+message SChessInitInfo{
+    required int32 playerId = 1;
+    required int32 colorIndex = 2;
+    required int32 posIndex = 3;
+}
+
+message SChessMoveInfo{
+    required int32 playerId = 1;
+    required SChessPos chessPos = 2;
+    required SChessPos movePos = 3;
+}
+
+message SChessPos{
+    required int32 x = 1;
+    required int32 y = 2;
+}

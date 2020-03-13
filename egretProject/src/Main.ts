@@ -59,24 +59,25 @@ class Main extends egret.DisplayObjectContainer {
         })
     }
 
-    private _clent: egret.WebSocket;
-
     private _chessprocess:ChessProcess;
 
     private async runGame() {
         await this.loadResource();
+
+        var obj:any = RES.getRes("msg2id_json");
+        Outgoing.init(obj);
+        GameProxy.init();
+        Outgoing.connection.connectionServer();
+
+        Dispatcher.addEventListener(EventName.InitGame,this.onInitGame,this);
+
         // this.createGameScene();
-        // this._clent = new egret.WebSocket();
-        // this._clent.type = egret.WebSocket.TYPE_BINARY;
-        // this._clent.connectByUrl("ws://192.168.21.51:8124");
-        // this._clent.addEventListener(egret.Event.CONNECT, this.onConnedComplete, this);
-        // this._clent.addEventListener(egret.ProgressEvent.SOCKET_DATA, this.socketDataHandler, this);
 
-        this._chessprocess = new ChessProcess();
+        // this._chessprocess = new ChessProcess();
 
-        this._chessprocess.startGame(this);
+        // this._chessprocess.startGame(this);
 
-        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onStageClick,this);
+        // this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onStageClick,this);
 
         // const result = await RES.getResAsync("description_json")
         // this.startAnimation(result);
@@ -89,21 +90,12 @@ class Main extends egret.DisplayObjectContainer {
         this._chessprocess.stageClick(e);
     }
 
-    private _receiveByteArray = new egret.ByteArray();
-    private _temByteArray = new egret.ByteArray();
+    private onInitGame(){
+        this._chessprocess = new ChessProcess();
 
-    private socketDataHandler(data: any): void {
-        this._clent.readBytes(this._receiveByteArray);
-        this._receiveByteArray.readBytes(this._temByteArray, 0);
-        let proto: prt.Student = prt.Student.decode(this._temByteArray.bytes);
-        console.log(proto.name);
-        console.log(proto.id);
-    }
+        this._chessprocess.startGame(this);
 
-    private onConnedComplete() {
-        var id: number = Math.random();
-        this._clent.writeBytes(this._receiveByteArray);
-        this._clent.flush();
+         this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onStageClick,this);
     }
 
     private async loadResource() {
@@ -218,5 +210,16 @@ class Main extends egret.DisplayObjectContainer {
         };
 
         change();
+    }
+
+    public initChessGame(info:msg.S2CInitGame){
+        if(GameCache.chessCache.selfInfo.playerId == info.player1.playerId){
+            GameCache.chessCache.selfInitInfo = info.player1;
+            GameCache.chessCache.elseInitInfo = info.player2
+        }
+        else{
+            GameCache.chessCache.selfInitInfo = info.player2;
+            GameCache.chessCache.elseInitInfo = info.player1;
+        }
     }
 }

@@ -75,8 +75,6 @@ var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
-        _this._receiveByteArray = new egret.ByteArray();
-        _this._temByteArray = new egret.ByteArray();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -98,20 +96,17 @@ var Main = (function (_super) {
     };
     Main.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var obj;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
                         _a.sent();
-                        // this.createGameScene();
-                        // this._clent = new egret.WebSocket();
-                        // this._clent.type = egret.WebSocket.TYPE_BINARY;
-                        // this._clent.connectByUrl("ws://192.168.21.51:8124");
-                        // this._clent.addEventListener(egret.Event.CONNECT, this.onConnedComplete, this);
-                        // this._clent.addEventListener(egret.ProgressEvent.SOCKET_DATA, this.socketDataHandler, this);
-                        this._chessprocess = new ChessProcess();
-                        this._chessprocess.startGame(this);
-                        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onStageClick, this);
+                        obj = RES.getRes("msg2id_json");
+                        Outgoing.init(obj);
+                        GameProxy.init();
+                        Outgoing.connection.connectionServer();
+                        Dispatcher.addEventListener(EventName.InitGame, this.onInitGame, this);
                         return [2 /*return*/];
                 }
             });
@@ -120,17 +115,10 @@ var Main = (function (_super) {
     Main.prototype.onStageClick = function (e) {
         this._chessprocess.stageClick(e);
     };
-    Main.prototype.socketDataHandler = function (data) {
-        this._clent.readBytes(this._receiveByteArray);
-        this._receiveByteArray.readBytes(this._temByteArray, 0);
-        var proto = prt.Student.decode(this._temByteArray.bytes);
-        console.log(proto.name);
-        console.log(proto.id);
-    };
-    Main.prototype.onConnedComplete = function () {
-        var id = Math.random();
-        this._clent.writeBytes(this._receiveByteArray);
-        this._clent.flush();
+    Main.prototype.onInitGame = function () {
+        this._chessprocess = new ChessProcess();
+        this._chessprocess.startGame(this);
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onStageClick, this);
     };
     Main.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -243,6 +231,16 @@ var Main = (function (_super) {
             tw.call(change, _this);
         };
         change();
+    };
+    Main.prototype.initChessGame = function (info) {
+        if (GameCache.chessCache.selfInfo.playerId == info.player1.playerId) {
+            GameCache.chessCache.selfInitInfo = info.player1;
+            GameCache.chessCache.elseInitInfo = info.player2;
+        }
+        else {
+            GameCache.chessCache.selfInitInfo = info.player2;
+            GameCache.chessCache.elseInitInfo = info.player1;
+        }
     };
     return Main;
 }(egret.DisplayObjectContainer));

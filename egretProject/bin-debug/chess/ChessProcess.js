@@ -9,12 +9,21 @@ var ChessProcess = (function () {
         this._chessBoard.init();
         parent.addChild(this._chessBoard);
         this._chessBoard.x = ChessGlobalData.cellSize / 2;
-        this._chessBoard.y = ChessGlobalData.cellSize / 2;
+        this._chessBoard.y = ChessGlobalData.cellSize / 2 + 50;
+        Dispatcher.addEventListener(EventName.MoveChessSuc, this.onMoveChessSuc, this);
     };
     ChessProcess.prototype.stageClick = function (e) {
         if (this._chessBoard) {
-            this._chessBoard.onClickChessBoard(e);
+            if (this._isSelectedChess) {
+                this._isSelectedChess = this._chessBoard.onSecondClickChessBoard(e);
+            }
+            else {
+                this._isSelectedChess = this._chessBoard.onFirstClickChessBoard(e);
+            }
         }
+    };
+    ChessProcess.prototype.onMoveChessSuc = function (e) {
+        this._chessBoard.onMoveChessSuc(e);
     };
     return ChessProcess;
 }());

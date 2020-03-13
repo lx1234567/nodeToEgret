@@ -1,0 +1,7 @@
+{
+    "msg.S2CInitGame":1,
+    "msg.S2CPlayInitInfo":2,
+    "msg.S2CPlayMoveChess":3,
+    "msg.C2SMoveChess":4,
+    "msg.C2SPlayInitInfo":5
+}
