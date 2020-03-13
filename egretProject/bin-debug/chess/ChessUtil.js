@@ -35,25 +35,25 @@ var ChessUtil = (function () {
             tempArr = [];
         }
         switch (chessType) {
-            case 1:
+            case ChessGlobalData.BING:
                 ChessUtil.getBingRoutePoint(pointX, pointY, tempArr);
                 break;
-            case 2:
+            case ChessGlobalData.SHI:
                 ChessUtil.getShiRoutePoint(pointX, pointY, tempArr);
                 break;
-            case 3:
+            case ChessGlobalData.XIANG:
                 ChessUtil.getXiangRoutePoint(pointX, pointY, tempArr);
                 break;
-            case 4:
+            case ChessGlobalData.PAO:
                 ChessUtil.getPaoRoutePoint(pointX, pointY, tempArr);
                 break;
-            case 5:
+            case ChessGlobalData.MA:
                 ChessUtil.getMaRoutePoint(pointX, pointY, tempArr);
                 break;
-            case 6:
+            case ChessGlobalData.JU:
                 ChessUtil.getJuRoutePoint(pointX, pointY, tempArr);
                 break;
-            case 7:
+            case ChessGlobalData.JIANG:
                 ChessUtil.getJiangRoutePoint(pointX, pointY, tempArr);
                 break;
         }
@@ -229,6 +229,9 @@ var ChessUtil = (function () {
         for (i = -1; i <= 1; i++) {
             for (j = -1; j <= 1; j++) {
                 if (i == 0 && j == 0) {
+                    continue;
+                }
+                if (j != 0 && i != 0) {
                     continue;
                 }
                 point = ObjectPool.pop("egret.Point");

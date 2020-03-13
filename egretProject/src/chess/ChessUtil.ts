@@ -38,26 +38,26 @@ class ChessUtil {
 		}
 
 		switch (chessType) {
-			case 1:
-			    ChessUtil.getBingRoutePoint(pointX,pointY,tempArr);
+			case ChessGlobalData.BING:
+				ChessUtil.getBingRoutePoint(pointX, pointY, tempArr);
 				break;
-			case 2:
-			    ChessUtil.getShiRoutePoint(pointX,pointY,tempArr);
+			case ChessGlobalData.SHI:
+				ChessUtil.getShiRoutePoint(pointX, pointY, tempArr);
 				break;
-			case 3:
-			    ChessUtil.getXiangRoutePoint(pointX,pointY,tempArr);
+			case ChessGlobalData.XIANG:
+				ChessUtil.getXiangRoutePoint(pointX, pointY, tempArr);
 				break;
-			case 4:
-			    ChessUtil.getPaoRoutePoint(pointX,pointY,tempArr);
+			case ChessGlobalData.PAO:
+				ChessUtil.getPaoRoutePoint(pointX, pointY, tempArr);
 				break;
-			case 5:
-			    ChessUtil.getMaRoutePoint(pointX,pointY,tempArr);
+			case ChessGlobalData.MA:
+				ChessUtil.getMaRoutePoint(pointX, pointY, tempArr);
 				break;
-			case 6:
-			    ChessUtil.getJuRoutePoint(pointX,pointY,tempArr);
+			case ChessGlobalData.JU:
+				ChessUtil.getJuRoutePoint(pointX, pointY, tempArr);
 				break;
-			case 7:
-			    ChessUtil.getJiangRoutePoint(pointX,pointY,tempArr);
+			case ChessGlobalData.JIANG:
+				ChessUtil.getJiangRoutePoint(pointX, pointY, tempArr);
 				break;
 		}
 
@@ -253,6 +253,11 @@ class ChessUtil {
 				if (i == 0 && j == 0) {
 					continue;
 				}
+
+				if (j != 0 && i != 0) {
+					continue;
+				}
+
 				point = ObjectPool.pop("egret.Point");
 				point.x = pointX + i;
 				point.y = pointY + j;
@@ -263,4 +268,5 @@ class ChessUtil {
 			}
 		}
 	}
+	
 }

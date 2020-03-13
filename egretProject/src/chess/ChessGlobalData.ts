@@ -12,4 +12,12 @@ class ChessGlobalData {
 	 /** 2玩家初始位置 */
 	public static chessStartPoint2: number[][][] = [ [[0, 3], [2, 3], [4, 3], [6, 3], [8, 3]], [[3, 0], [5, 0]], [[2, 0], [6, 0]], [[1, 2], [7, 2]], [[1, 0], [7, 0]], [[0, 0], [8, 0]], [[4, 0]]];
 
+	public static BING:number = 1;
+	public static SHI:number = 2;
+	public static XIANG:number = 3;
+	public static PAO:number = 4;
+	public static MA:number = 5;
+	public static JU:number = 6;
+	public static JIANG:number = 7;
+
 }
