@@ -13,26 +13,26 @@ var Chess = (function (_super) {
     function Chess() {
         return _super.call(this) || this;
     }
-    Chess.prototype.initChess = function (colorIndex, chessIndex) {
+    Chess.prototype.initChess = function (chessData) {
         this._chessBg = new egret.Bitmap();
         this.addChild(this._chessBg);
         this.width = this.height = ChessGlobalData.cellSize;
         this._chessBg.width = this._chessBg.height = this.width;
-        this._colorIndex = colorIndex;
-        this._chessIndex = chessIndex;
-        var texture = RES.getRes("chess_" + this._colorIndex + "_" + this._chessIndex + "_png");
+        this._chessData = chessData;
+        this.updateChessData(chessData);
+        var texture = RES.getRes("chess_" + chessData.colorType + "_" + chessData.chessType + "_png");
         this._chessBg.texture = texture;
     };
-    Chess.prototype.setPoint = function (point) {
-        this._point = point;
-        this.x = point.x * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
-        this.y = point.y * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
+    Chess.prototype.updateChessData = function (chessData) {
+        this._chessData = chessData;
+        this.x = chessData.pos.x * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
+        this.y = chessData.pos.y * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
     };
     Chess.prototype.getChessX = function () {
-        return this._point.x;
+        return this._chessData.pos.x;
     };
     Chess.prototype.getChessY = function () {
-        return this._point.y;
+        return this._chessData.pos.y;
     };
     Chess.prototype.setChessIsSelected = function (value) {
         if (this._isSelected == value) {
@@ -60,7 +60,10 @@ var Chess = (function (_super) {
         return this._isSelected;
     };
     Chess.prototype.getChessType = function () {
-        return this._chessIndex;
+        return this._chessData.chessType;
+    };
+    Chess.prototype.getChessData = function () {
+        return this._chessData;
     };
     return Chess;
 }(egret.DisplayObjectContainer));
