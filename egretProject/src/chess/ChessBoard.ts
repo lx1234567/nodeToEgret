@@ -337,6 +337,7 @@ class ChessBoard extends egret.Sprite {
 
 			if (ChessUtil.isCheckmate(this._playerSelfChessDataArr, this._playerOtherChessDataArr)) {
 				this._isCanMoveChess = false;
+				alert("您已输棋");
 				console.log("您已输棋");
 				return;
 			}
@@ -445,35 +446,5 @@ class ChessBoard extends egret.Sprite {
 		}
 
 		return result;
-	}
-
-	//判死，自己是否被对面将死
-	private isYetLose(): boolean {
-		var selfJiangData: ChessData;
-		var i: number;
-		var tempChessData: ChessData;
-		var jiangChessArr: ChessData[] = [];
-		for (i = 0; i < this._playerSelfChessDataArr.length; i++) {
-			if (tempChessData.chessType == ChessGlobalData.JIANG) {
-				selfJiangData = tempChessData;
-			}
-		}
-
-		for (i = 0; i < this._playerOtherChessDataArr.length; i++) {
-			tempChessData = this._playerOtherChessDataArr[i];
-			if (tempChessData.chessType == ChessGlobalData.BING || tempChessData.chessType == ChessGlobalData.JU || tempChessData.chessType == ChessGlobalData.MA || tempChessData.chessType == ChessGlobalData.PAO) {
-				// if (this.isCanTakeChess(tempChessData.chessType, tempChessData.pos.x, tempChessData.pos.y, selfJiangData.pos.x, selfJiangData.pos.y, false)) {
-				// 	jiangChessArr.push(tempChessData);
-				// }
-			}
-		}
-
-		if (jiangChessArr.length) {
-			for (i = 0; i < jiangChessArr.length; i++) {
-
-			}
-		}
-
-		return false;
 	}
 }

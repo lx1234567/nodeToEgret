@@ -278,6 +278,7 @@ var ChessBoard = (function (_super) {
             }
             if (ChessUtil.isCheckmate(this._playerSelfChessDataArr, this._playerOtherChessDataArr)) {
                 this._isCanMoveChess = false;
+                alert("您已输棋");
                 console.log("您已输棋");
                 return;
             }
@@ -371,31 +372,6 @@ var ChessBoard = (function (_super) {
             this._playerOtherChessDataArr.push(chessData2);
         }
         return result;
-    };
-    //判死，自己是否被对面将死
-    ChessBoard.prototype.isYetLose = function () {
-        var selfJiangData;
-        var i;
-        var tempChessData;
-        var jiangChessArr = [];
-        for (i = 0; i < this._playerSelfChessDataArr.length; i++) {
-            if (tempChessData.chessType == ChessGlobalData.JIANG) {
-                selfJiangData = tempChessData;
-            }
-        }
-        for (i = 0; i < this._playerOtherChessDataArr.length; i++) {
-            tempChessData = this._playerOtherChessDataArr[i];
-            if (tempChessData.chessType == ChessGlobalData.BING || tempChessData.chessType == ChessGlobalData.JU || tempChessData.chessType == ChessGlobalData.MA || tempChessData.chessType == ChessGlobalData.PAO) {
-                // if (this.isCanTakeChess(tempChessData.chessType, tempChessData.pos.x, tempChessData.pos.y, selfJiangData.pos.x, selfJiangData.pos.y, false)) {
-                // 	jiangChessArr.push(tempChessData);
-                // }
-            }
-        }
-        if (jiangChessArr.length) {
-            for (i = 0; i < jiangChessArr.length; i++) {
-            }
-        }
-        return false;
     };
     return ChessBoard;
 }(egret.Sprite));
