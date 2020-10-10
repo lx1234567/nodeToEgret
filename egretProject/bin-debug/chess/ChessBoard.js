@@ -15,6 +15,11 @@ var ChessBoard = (function (_super) {
         _this._chessCellSize = ChessGlobalData.cellSize;
         _this._startX = 10;
         _this._startY = 100;
+        _this._routeImgArr = [];
+        _this._routeImgPool = [];
+        _this._selectedChessRoutePointArr = [];
+        _this._originalPos = new msg.SChessPos();
+        _this._movePos = new msg.SChessPos();
         return _this;
     }
     ChessBoard.prototype.init = function () {
@@ -25,71 +30,80 @@ var ChessBoard = (function (_super) {
     ChessBoard.prototype.initBoard = function () {
         this.width = this._chessCellSize * 8;
         this.height = this._chessCellSize * 9;
+        var bgTexture = RES.getRes("bg_png");
+        this._bgImg = new egret.Bitmap();
+        this._bgImg.texture = bgTexture;
+        this.addChild(this._bgImg);
+        this._bgImg.x = -38;
+        this._bgImg.y = -43;
+        this._bgImg.width = this.width + 93;
+        this._bgImg.height = this.height + 80;
         this.x = this._startX;
         this.y = this._startY;
-        this.graphics.lineStyle(3, 0x000000, 1);
-        this.graphics.drawRect(-8, -8, this.width + 16, this.height + 16);
-        this.graphics.lineStyle(2, 0x000000, 1);
-        this.graphics.drawRect(0, 0, this.width, this.height);
-        var i;
-        for (i = 0; i < 8; i++) {
-            this.graphics.moveTo(0, (i + 1) * this._chessCellSize);
-            this.graphics.lineTo(this._chessCellSize * 8, (i + 1) * this._chessCellSize);
+    };
+    //初始化棋子
+    ChessBoard.prototype.initChess = function () {
+        this._playerOtherChessDataArr = [];
+        this._playerSelfChessDataArr = [];
+        this._playerSelfChess = [];
+        this._playerOtherChess = [];
+        this._playerOtherChessObj = {};
+        this._playerSelfChessObj = {};
+        var i, j, k, chessPoint, chessData, chess;
+        var selfInfo = GameCache.chessCache.selfInitInfo;
+        var otherInfo = GameCache.chessCache.elseInitInfo;
+        for (i = 0; i < 7; i++) {
+            var colorIndex = selfInfo.colorIndex;
+            var point = ChessGlobalData.chessStartPoint1[i];
+            for (j = 0; j < point.length; j++) {
+                chessData = new ChessData();
+                chessData.colorType = colorIndex;
+                chessData.chessType = i + 1;
+                chessPoint = new egret.Point(point[j][0], point[j][1]);
+                chessData.pos = chessPoint;
+                this._playerSelfChessDataArr.push(chessData);
+            }
         }
         for (i = 0; i < 7; i++) {
-            this.graphics.moveTo((i + 1) * this._chessCellSize, 0);
-            this.graphics.lineTo((i + 1) * this._chessCellSize, 4 * this._chessCellSize);
-            this.graphics.moveTo((i + 1) * this._chessCellSize, 5 * this._chessCellSize);
-            this.graphics.lineTo((i + 1) * this._chessCellSize, 9 * this._chessCellSize);
+            var colorIndex = otherInfo.colorIndex;
+            var point = ChessGlobalData.chessStartPoint2[i];
+            for (j = 0; j < point.length; j++) {
+                chessData = new ChessData();
+                chessData.colorType = colorIndex;
+                chessData.chessType = i + 1;
+                chessPoint = new egret.Point(point[j][0], point[j][1]);
+                chessData.pos = chessPoint;
+                this._playerOtherChessDataArr.push(chessData);
+            }
         }
-        this.drawLine(3 * this._chessCellSize, 0, 5 * this._chessCellSize, 2 * this._chessCellSize);
-        this.drawLine(3 * this._chessCellSize, 2 * this._chessCellSize, 5 * this._chessCellSize, 0);
-        this.drawLine(3 * this._chessCellSize, 7 * this._chessCellSize, 5 * this._chessCellSize, 9 * this._chessCellSize);
-        this.drawLine(3 * this._chessCellSize, 9 * this._chessCellSize, 5 * this._chessCellSize, 7 * this._chessCellSize);
-        this.drawForuLine(this._chessCellSize, 2 * this._chessCellSize);
-        this.drawForuLine(this._chessCellSize, 7 * this._chessCellSize);
-        this.drawForuLine(7 * this._chessCellSize, 7 * this._chessCellSize);
-        this.drawForuLine(7 * this._chessCellSize, 2 * this._chessCellSize);
-        this._text1 = new egret.TextField();
-        this._text2 = new egret.TextField();
-        this._text1.size = this._text2.size = 30;
-        this._text1.bold = this._text2.bold = true;
-        this._text1.textColor = this._text2.textColor = 0x000000;
-        this._text1.text = "楚河";
-        this._text1.x = 1 * this._chessCellSize + this._chessCellSize / 2 + 10;
-        this._text1.y = 4 * this._chessCellSize + 25;
-        this.addChild(this._text1);
-        this._text2.text = "汉界";
-        this._text2.x = 5 * this._chessCellSize + this._chessCellSize / 2 + 10;
-        this._text2.y = 4 * this._chessCellSize + 25;
-        this.addChild(this._text2);
+        for (i = 0; i < this._playerSelfChessDataArr.length; i++) {
+            chessData = this._playerSelfChessDataArr[i];
+            chess = new Chess();
+            chess.initChess(chessData);
+            this._playerSelfChess.push(chess);
+            this._playerSelfChessObj[chessData.pos.x + "_" + chessData.pos.y] = chess;
+        }
+        for (k = 0; k < this._playerSelfChess.length; k++) {
+            this.addChild(this._playerSelfChess[k]);
+        }
+        for (i = 0; i < this._playerOtherChessDataArr.length; i++) {
+            chessData = this._playerOtherChessDataArr[i];
+            chess = new Chess();
+            chess.initChess(chessData);
+            this._playerOtherChess.push(chess);
+            this._playerOtherChessObj[chessData.pos.x + "_" + chessData.pos.y] = chess;
+        }
+        for (k = 0; k < this._playerOtherChess.length; k++) {
+            this.addChild(this._playerOtherChess[k]);
+        }
+        if (selfInfo.colorIndex == 1) {
+            this._isCanMoveChess = true;
+        }
     };
-    ChessBoard.prototype.drawLine = function (startX, startY, endX, endY) {
-        this.graphics.moveTo(startX, startY);
-        this.graphics.lineTo(endX, endY);
-    };
-    /** 炮位线 ,开始点*/
-    ChessBoard.prototype.drawForuLine = function (startX, startY, distance, size) {
-        if (distance === void 0) { distance = 4; }
-        if (size === void 0) { size = 10; }
-        this.graphics.moveTo(startX - distance, startY - distance);
-        this.graphics.lineTo(startX - distance - size, startY - distance);
-        this.graphics.moveTo(startX - distance, startY - distance);
-        this.graphics.lineTo(startX - distance, startY - distance - size);
-        this.graphics.moveTo(startX + distance, startY - distance);
-        this.graphics.lineTo(startX + distance + size, startY - distance);
-        this.graphics.moveTo(startX + distance, startY - distance);
-        this.graphics.lineTo(startX + distance, startY - distance - size);
-        this.graphics.moveTo(startX - distance, startY + distance);
-        this.graphics.lineTo(startX - distance - size, startY + distance);
-        this.graphics.moveTo(startX - distance, startY + distance);
-        this.graphics.lineTo(startX - distance, startY + distance + size);
-        this.graphics.moveTo(startX + distance, startY + distance);
-        this.graphics.lineTo(startX + distance + size, startY + distance);
-        this.graphics.moveTo(startX + distance, startY + distance);
-        this.graphics.lineTo(startX + distance, startY + distance + size);
-    };
-    ChessBoard.prototype.onClickChessBoard = function (e) {
+    ChessBoard.prototype.onFirstClickChessBoard = function (e) {
+        if (!this._isCanMoveChess) {
+            return false;
+        }
         var x = e.stageX;
         var y = e.stageY;
         if (!this._tempPoint) {
@@ -98,28 +112,266 @@ var ChessBoard = (function (_super) {
         this._tempPoint = this.globalToLocal(x, y, this._tempPoint);
         this._tempPoint = ChessUtil.getClickChessBoardXY(this._tempPoint, this._chessCellSize, this._tempPoint);
         if (!this._tempPoint) {
-            console.log("未点击有效位置");
+            console.log("not click chessboard");
+            return false;
         }
-        else {
-            console.log("x:" + this._tempPoint.x + "y:" + this._tempPoint.y);
+        if (!this._playerSelfChessObj[this._tempPoint.x + "_" + this._tempPoint.y]) {
+            return false;
         }
+        if (this._selectedChess) {
+            this._selectedChess.setChessIsSelected(false);
+        }
+        this._selectedChess = this._playerSelfChessObj[this._tempPoint.x + "_" + this._tempPoint.y];
+        this._selectedChess.setChessIsSelected(true);
+        this.updateSelectedChess();
+        return true;
     };
-    //初始化棋子
-    ChessBoard.prototype.initChess = function () {
-        this._player1Chess = [];
-        for (var i = 0; i < 7; i++) {
-            var point = ChessGlobalData.chessStartPoint1[i];
-            for (var j = 0; j < point.length; j++) {
-                var chess = new Chess();
-                chess.initChess(1, i + 1);
-                chess.setPoint(new egret.Point(point[j][0], point[j][1]));
-                this._player1Chess.push(chess);
+    ChessBoard.prototype.onSecondClickChessBoard = function (e) {
+        if (!this._isCanMoveChess) {
+            return true;
+        }
+        var x = e.stageX;
+        var y = e.stageY;
+        if (!this._tempPoint) {
+            this._tempPoint = new egret.Point();
+        }
+        this._tempPoint = this.globalToLocal(x, y, this._tempPoint);
+        this._tempPoint = ChessUtil.getClickChessBoardXY(this._tempPoint, this._chessCellSize, this._tempPoint);
+        if (!this._tempPoint) {
+            return true;
+        }
+        var chess = this._playerSelfChessObj[this._tempPoint.x + "_" + this._tempPoint.y];
+        if (chess) {
+            if (this._selectedChess) {
+                this._selectedChess.setChessIsSelected(false);
+            }
+            this._selectedChess = chess;
+            this._selectedChess.setChessIsSelected(true);
+            this.updateSelectedChess();
+            return true;
+        }
+        //点击别人判吃
+        chess = this._playerOtherChessObj[this._tempPoint.x + "_" + this._tempPoint.y];
+        if (chess) {
+            if (this.routeArrIsContainer(this._tempPoint)) {
+                this._originalPos.x = this._selectedChess.getChessX();
+                this._originalPos.y = this._selectedChess.getChessY();
+                this._movePos.x = this._tempPoint.x;
+                this._movePos.y = this._tempPoint.y;
+                if (this.isCanMove(this._originalPos.x, this._originalPos.y, this._movePos.x, this._movePos.y)) {
+                    GameProxy.chessProxy.onMoveChess(this._originalPos, this._movePos);
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            return true;
+        }
+        if (this.routeArrIsContainer(this._tempPoint)) {
+            this._originalPos.x = this._selectedChess.getChessX();
+            this._originalPos.y = this._selectedChess.getChessY();
+            this._movePos.x = this._tempPoint.x;
+            this._movePos.y = this._tempPoint.y;
+            if (this.isCanMove(this._originalPos.x, this._originalPos.y, this._movePos.x, this._movePos.y)) {
+                GameProxy.chessProxy.onMoveChess(this._originalPos, this._movePos);
+                return false;
             }
         }
-        for (var k = 0; k < this._player1Chess.length; k++) {
-            this.addChild(this._player1Chess[k]);
+        return true;
+    };
+    ChessBoard.prototype.onMoveChessSuc = function (e) {
+        var obj = e.data;
+        var i;
+        var j;
+        var posX;
+        var posY;
+        var endX;
+        var endY;
+        var chessArr;
+        var chess;
+        var chessData;
+        var chessData1;
+        var newPoint;
+        var moveChess;
+        this.clearCurSelectedChess();
+        if (obj.playerId == GameCache.chessCache.selfInfo.playerId) {
+            posX = obj.chessPos.x;
+            posY = obj.chessPos.y;
+            endX = obj.movePos.x;
+            endY = obj.movePos.y;
+            this._isCanMoveChess = false;
         }
-        console.log(this);
+        else {
+            posX = 8 - obj.chessPos.x;
+            posY = 9 - obj.chessPos.y;
+            endX = 8 - obj.movePos.x;
+            endY = 9 - obj.movePos.y;
+            this._isCanMoveChess = true;
+        }
+        if (obj.playerId == GameCache.chessCache.selfInfo.playerId) {
+            for (i = 0; i < this._playerSelfChessDataArr.length; i++) {
+                chessData = this._playerSelfChessDataArr[i];
+                if (chessData.pos.x == posX && chessData.pos.y == posY) {
+                    if (this._playerSelfChessObj[posX + "_" + posY]) {
+                        chess = this._playerSelfChessObj[posX + "_" + posY];
+                        delete this._playerSelfChessObj[posX + "_" + posY];
+                    }
+                    if (this._playerOtherChessObj[endX + "_" + endY]) {
+                        moveChess = this._playerOtherChessObj[endX + "_" + endY];
+                        var index = this._playerOtherChess.indexOf(moveChess);
+                        if (index != -1) {
+                            this._playerOtherChess.splice(index, 1);
+                        }
+                        delete this._playerOtherChessObj[endX + "_" + endY];
+                        this.removeChild(moveChess);
+                        for (j = 0; j < this._playerOtherChessDataArr.length; j++) {
+                            chessData1 = this._playerOtherChessDataArr[j];
+                            if (chessData1.pos.x == endX && chessData1.pos.y == endY) {
+                                this._playerOtherChessDataArr.splice(j, 1);
+                                break;
+                            }
+                        }
+                    }
+                    newPoint = ObjectPool.pop("egret.Point");
+                    newPoint.x = endX;
+                    newPoint.y = endY;
+                    chessData.pos = newPoint;
+                    chess.updateChessData(chessData);
+                    this._playerSelfChessObj[endX + "_" + endY] = chess;
+                    break;
+                }
+            }
+        }
+        else {
+            for (i = 0; i < this._playerOtherChess.length; i++) {
+                chessData = this._playerOtherChessDataArr[i];
+                if (chessData.pos.x == posX && chessData.pos.y == posY) {
+                    if (this._playerOtherChessObj[posX + "_" + posY]) {
+                        chess = this._playerOtherChessObj[posX + "_" + posY];
+                        delete this._playerOtherChessObj[posX + "_" + posY];
+                    }
+                    if (this._playerSelfChessObj[endX + "_" + endY]) {
+                        moveChess = this._playerSelfChessObj[endX + "_" + endY];
+                        var index = this._playerSelfChess.indexOf(moveChess);
+                        if (index != -1) {
+                            this._playerSelfChess.splice(index, 1);
+                        }
+                        delete this._playerSelfChessObj[endX + "_" + endY];
+                        this.removeChild(moveChess);
+                        for (j = 0; j < this._playerSelfChessDataArr.length; j++) {
+                            chessData1 = this._playerSelfChessDataArr[j];
+                            if (chessData1.pos.x == endX && chessData1.pos.y == endY) {
+                                this._playerSelfChessDataArr.splice(j, 1);
+                                break;
+                            }
+                        }
+                    }
+                    newPoint = ObjectPool.pop("egret.Point");
+                    newPoint.x = endX;
+                    newPoint.y = endY;
+                    chessData.pos = newPoint;
+                    chess.updateChessData(chessData);
+                    this._playerOtherChessObj[endX + "_" + endY] = chess;
+                    break;
+                }
+            }
+            if (ChessUtil.isCheckmate(this._playerSelfChessDataArr, this._playerOtherChessDataArr)) {
+                this._isCanMoveChess = false;
+                alert("您已输棋");
+                console.log("您已输棋");
+                return;
+            }
+        }
+    };
+    ChessBoard.prototype.updateSelectedChess = function () {
+        this.clearAllRouteImg();
+        var chessType = this._selectedChess.getChessType();
+        var pointX = this._selectedChess.getChessX();
+        var pointY = this._selectedChess.getChessY();
+        this._selectedChessRoutePointArr = ChessUtil.getChessAllCanMovePos(this._selectedChess.getChessData(), this._playerSelfChessDataArr, this._playerOtherChessDataArr);
+        for (var i = 0; i < this._selectedChessRoutePointArr.length; i++) {
+            var point = this._selectedChessRoutePointArr[i];
+            if (!this._playerOtherChessObj[point.x + "_" + point.y]) {
+                var routeImage = this._routeImgPool.pop();
+                if (!routeImage) {
+                    routeImage = new egret.Bitmap();
+                    var textTure = RES.getRes("dot_png");
+                    routeImage.texture = textTure;
+                }
+                routeImage.x = point.x * ChessGlobalData.cellSize - 18;
+                routeImage.y = point.y * ChessGlobalData.cellSize - 23;
+                this.addChild(routeImage);
+                this._routeImgArr.push(routeImage);
+            }
+        }
+    };
+    ChessBoard.prototype.clearCurSelectedChess = function () {
+        if (this._selectedChess) {
+            this._selectedChess.setChessIsSelected(false);
+            this._selectedChess = null;
+            this.clearAllRouteImg();
+        }
+    };
+    ChessBoard.prototype.clearAllRouteImg = function () {
+        while (this._routeImgArr.length) {
+            var routeImg = this._routeImgArr.shift();
+            if (routeImg.parent) {
+                routeImg.parent.removeChild(routeImg);
+                routeImg.x = routeImg.y = 0;
+            }
+            this._routeImgPool.push(routeImg);
+        }
+        while (this._selectedChessRoutePointArr.length) {
+            var point = this._selectedChessRoutePointArr.shift();
+            point.x = point.y = 0;
+            ObjectPool.push(point);
+        }
+    };
+    ChessBoard.prototype.routeArrIsContainer = function (point) {
+        if (this._selectedChessRoutePointArr && this._selectedChessRoutePointArr.length) {
+            for (var i = 0; i < this._selectedChessRoutePointArr.length; i++) {
+                var routePoint = this._selectedChessRoutePointArr[i];
+                if (routePoint.x == point.x && routePoint.y == point.y) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+    /** 判移(被将情况无法移动) */
+    ChessBoard.prototype.isCanMove = function (startX, startY, endX, endY) {
+        var chessData1;
+        var chessData2;
+        var chess1;
+        var chess2;
+        var tempChessData;
+        var i;
+        var selfJiangData;
+        for (i = 0; i < this._playerSelfChessDataArr.length; i++) {
+            tempChessData = this._playerSelfChessDataArr[i];
+            if (tempChessData.pos.x == startX && tempChessData.pos.y == startY) {
+                tempChessData.pos.x = endX;
+                tempChessData.pos.y = endY;
+                chessData1 = tempChessData;
+                break;
+            }
+        }
+        for (i = 0; i < this._playerOtherChessDataArr.length; i++) {
+            tempChessData = this._playerOtherChessDataArr[i];
+            if (tempChessData.pos.x == endX && tempChessData.pos.y == endY) {
+                chessData2 = this._playerOtherChessDataArr.splice(i, 1)[0];
+                break;
+            }
+        }
+        var result = !ChessUtil.isCheck(this._playerSelfChessDataArr, this._playerOtherChessDataArr);
+        //还原棋盘
+        chessData1.pos.x = startX;
+        chessData1.pos.y = startY;
+        if (chessData2) {
+            this._playerOtherChessDataArr.push(chessData2);
+        }
+        return result;
     };
     return ChessBoard;
 }(egret.Sprite));

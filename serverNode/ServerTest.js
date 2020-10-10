@@ -4,6 +4,7 @@ root = prtobufJs.loadSync("./protobuf/test.proto"),
 student = root.lookupType("prt.Student");
 ports = 8124;
 
+var 
 var server = ws.createServer(function(conn){
     console.log("new connection")
     conn.on('text',function(str){

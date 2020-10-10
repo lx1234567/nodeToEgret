@@ -219,7 +219,7 @@ var util = require("util"),
             this.frameBuffer.addData(payload)
     
             if (fin) {
-                this.frameBuffer.end()
+                this.frameBuffer.end();
                 this.frameBuffer = null
             }
         }

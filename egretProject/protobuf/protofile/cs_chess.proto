@@ -1,0 +1,22 @@
+package msg;
+
+message S2CInitGame {
+	required SChessInitInfo player1 = 1;
+    required SChessInitInfo player2 = 2;
+}
+
+message S2CPlayInitInfo{
+    required SPlayerInfo playerInfo = 1;
+}
+
+message S2CPlayMoveChess{
+    required SChessMoveInfo info = 1;
+}
+
+message C2SMoveChess {
+	required SChessMoveInfo info = 1;
+}
+
+message C2SPlayInitInfo{
+    required SPlayerInfo playerInfo = 1;
+}

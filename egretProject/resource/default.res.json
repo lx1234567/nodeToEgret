@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,chess_1_1_png,chess_1_2_png,chess_1_3_png,chess_1_4_png,chess_1_5_png,chess_1_6_png,chess_1_7_png,chess_2_1_png,chess_2_2_png,chess_2_3_png,chess_2_4_png,chess_2_5_png,chess_2_6_png,chess_2_7_png",
+			"keys": "bg_jpg,egret_icon_png,description_json,chess_1_1_png,chess_1_2_png,chess_1_3_png,chess_1_4_png,chess_1_5_png,chess_1_6_png,chess_1_7_png,chess_2_1_png,chess_2_2_png,chess_2_3_png,chess_2_4_png,chess_2_5_png,chess_2_6_png,chess_2_7_png,bg_png,msg2id_json,dot_png,r_box_png",
 			"name": "preload"
 		}
 	],
@@ -90,6 +90,26 @@
 			"url": "assets/chess/chess_2_7.png",
 			"type": "image",
 			"name": "chess_2_7_png"
+		},
+		{
+			"url": "assets/chess/bg.png",
+			"type": "image",
+			"name": "bg_png"
+		},
+		{
+			"url": "assets/net/msg2id.json",
+			"type": "json",
+			"name": "msg2id_json"
+		},
+		{
+			"url": "assets/chess/dot.png",
+			"type": "image",
+			"name": "dot_png"
+		},
+		{
+			"url": "assets/chess/r_box.png",
+			"type": "image",
+			"name": "r_box_png"
 		}
 	]
 }

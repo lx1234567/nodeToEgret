@@ -13,13 +13,26 @@
 		"libs/modules/socket/socket.js"
 	],
 	"game": [
-		"bin-debug/LoadingUI.js",
-		"bin-debug/Main.js",
+		"bin-debug/chess/ChessCache.js",
+		"bin-debug/net/BaseProxy.js",
+		"bin-debug/chess/ChessProxy.js",
 		"bin-debug/Platform.js",
 		"bin-debug/chess/Chess.js",
 		"bin-debug/chess/ChessBoard.js",
+		"bin-debug/GameCache.js",
+		"bin-debug/chess/ChessData.js",
 		"bin-debug/chess/ChessGlobalData.js",
 		"bin-debug/chess/ChessProcess.js",
-		"bin-debug/chess/ChessUtil.js"
+		"bin-debug/LoadingUI.js",
+		"bin-debug/chess/ChessUtil.js",
+		"bin-debug/core/Handler.js",
+		"bin-debug/event/Dispatcher.js",
+		"bin-debug/event/EventName.js",
+		"bin-debug/Main.js",
+		"bin-debug/net/Connection.js",
+		"bin-debug/net/GameProxy.js",
+		"bin-debug/net/Outgoing.js",
+		"bin-debug/net/Session.js",
+		"bin-debug/pool/ObjectPool.js"
 	]
 }

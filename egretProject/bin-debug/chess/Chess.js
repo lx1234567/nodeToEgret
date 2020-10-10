@@ -13,19 +13,59 @@ var Chess = (function (_super) {
     function Chess() {
         return _super.call(this) || this;
     }
-    Chess.prototype.initChess = function (playerIndex, chessIndex) {
+    Chess.prototype.initChess = function (chessData) {
+        this._chessBg = new egret.Bitmap();
+        this.addChild(this._chessBg);
         this.width = this.height = ChessGlobalData.cellSize;
-        this._playerIndex = playerIndex;
-        this._chessIndex = chessIndex;
-        var texture = RES.getRes("chess_" + this._playerIndex + "_" + this._chessIndex + "_png");
-        this.texture = texture;
+        this._chessBg.width = this._chessBg.height = this.width;
+        this._chessData = chessData;
+        this.updateChessData(chessData);
+        var texture = RES.getRes("chess_" + chessData.colorType + "_" + chessData.chessType + "_png");
+        this._chessBg.texture = texture;
     };
-    Chess.prototype.setPoint = function (point) {
-        this._point = point;
-        this.x = point.x * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
-        this.y = point.y * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
+    Chess.prototype.updateChessData = function (chessData) {
+        this._chessData = chessData;
+        this.x = chessData.pos.x * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
+        this.y = chessData.pos.y * ChessGlobalData.cellSize - ChessGlobalData.cellSize / 2 + 6;
+    };
+    Chess.prototype.getChessX = function () {
+        return this._chessData.pos.x;
+    };
+    Chess.prototype.getChessY = function () {
+        return this._chessData.pos.y;
+    };
+    Chess.prototype.setChessIsSelected = function (value) {
+        if (this._isSelected == value) {
+            return;
+        }
+        this._isSelected = value;
+        if (value) {
+            if (!this._chessSelectedImg) {
+                this._chessSelectedImg = new egret.Bitmap();
+                var texture = RES.getRes("r_box_png");
+                this._chessSelectedImg.texture = texture;
+                this._chessSelectedImg.width = this._chessSelectedImg.height = this.width;
+                this._chessSelectedImg.x = this._chessSelectedImg.y = 0;
+                this.addChild(this._chessSelectedImg);
+            }
+            this._chessSelectedImg.visible = true;
+        }
+        else {
+            if (this._chessSelectedImg) {
+                this._chessSelectedImg.visible = false;
+            }
+        }
+    };
+    Chess.prototype.getChessIsSelected = function () {
+        return this._isSelected;
+    };
+    Chess.prototype.getChessType = function () {
+        return this._chessData.chessType;
+    };
+    Chess.prototype.getChessData = function () {
+        return this._chessData;
     };
     return Chess;
-}(egret.Bitmap));
+}(egret.DisplayObjectContainer));
 __reflect(Chess.prototype, "Chess");
 //# sourceMappingURL=Chess.js.map
